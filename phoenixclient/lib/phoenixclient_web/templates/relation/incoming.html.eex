@@ -1,0 +1,31 @@
+<h1>Incoming Users</h1>
+
+<thead>
+  <tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th></th>
+</thead>
+
+<table>
+  <tbody>
+    <%= for user <- @users do %>
+      <tr>
+        <td><%= user.name %></td>
+        <td><%= user.email %></td>
+
+        <td>
+          <%= link "Show", to: Routes.user_path(@conn, :show, user) %>
+          <%= link "Edit", to: Routes.user_path(@conn, :edit, user) %>
+          <%= link "Delete", to: Routes.user_path(@conn, :delete, user),
+            method: :delete, data: [confirm: "Are you sure?"] %>
+          <%= form_for @conn, Routes.relation_path(@conn, :accept), fn f -> %>
+
+            <%= hidden_input f, :destinationID, value: user.id %>
+            <%= submit "Accept" %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

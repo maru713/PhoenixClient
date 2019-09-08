@@ -114,4 +114,8 @@ defmodule Phoenixclient.Accounts do
       false -> {:error, "Incorrect username or password"}
     end
   end
+
+  def current_user(conn) do
+    Guardian.Plug.current_resource(conn)
+  end
 end

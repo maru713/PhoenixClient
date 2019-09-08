@@ -10,8 +10,12 @@ defmodule PhoenixclientWeb.Router do
     plug :put_secure_browser_headers
   end
 
-  pipeline :auth do
+  pipeline :auth do #ログイン認証のためのパイプライン
     plug Phoenixclient.Accounts.Pipeline
+  end
+
+  pipeline :ensure_auth do  #ログイン済みであるかの判断のためのパイプライン
+    plug Guardian.Plug.EnsureAuthenticated
   end
 
   pipeline :api do
@@ -22,9 +26,19 @@ defmodule PhoenixclientWeb.Router do
     pipe_through [:browser, :auth]
 
     resources "/users", UserController #usersパスへのすべてのリクエストを許可
+    post "/users", UserController, :sendreq
     get "/", PageController, :index
     get "/login", LoginController, :index   #login画面を表示
     post "/login", LoginController, :login #loginのための情報送信  
+    post "/add", RelationController, :add #フレンド申請
+    delete "/logout", LoginController, :delete
+  end
+
+  scope "/", PhoenixclientWeb do
+  pipe_through [:browser, :auth, :ensure_auth]
+
+  get "/incoming", RelationController, :incoming
+    post "/incoming", RelationController, :accept
   end
 
   # Other scopes may use custom stacks.

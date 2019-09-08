@@ -1,0 +1,30 @@
+<h1>Listing Relation</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Sourceid</th>
+      <th>Destinationid</th>
+      <th>Status</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for relation <- @relation do %>
+    <tr>
+      <td><%= relation.sourceID %></td>
+      <td><%= relation.destinationID %></td>
+      <td><%= relation.status %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.relation_path(@conn, :show, relation) %></span>
+        <span><%= link "Edit", to: Routes.relation_path(@conn, :edit, relation) %></span>
+        <span><%= link "Delete", to: Routes.relation_path(@conn, :delete, relation), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Relation", to: Routes.relation_path(@conn, :new) %></span>

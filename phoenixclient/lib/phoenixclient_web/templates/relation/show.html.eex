@@ -1,0 +1,23 @@
+<h1>Show Relation</h1>
+
+<ul>
+
+  <li>
+    <strong>Sourceid:</strong>
+    <%= @relation.sourceID %>
+  </li>
+
+  <li>
+    <strong>Destinationid:</strong>
+    <%= @relation.destinationID %>
+  </li>
+
+  <li>
+    <strong>Status:</strong>
+    <%= @relation.status %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.relation_path(@conn, :edit, @relation) %></span>
+<span><%= link "Back", to: Routes.relation_path(@conn, :index) %></span>
