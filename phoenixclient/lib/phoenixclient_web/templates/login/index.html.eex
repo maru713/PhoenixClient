@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" charset="utf-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
+  </head>
+  <body>
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="columns">
+          <div class="column is-6 is-offset-3">
+            <div class="notification is-success">
+            </div>
+            <div class="box">
+                <%= form_for @changeset, Routes.login_path(@conn, :login), fn f -> %>
+                    <div class="field">
+                        <div class="control">
+                            <%= label f, :email, class: "control-label" %>
+                            <%= text_input f, :email, class: "form-control" %>
+                            <%= error_tag f, :email %>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <%= label f, :password, class: "control-label" %>
+                            <%= password_input f, :password, class: "form-control" %>
+                            <%= error_tag f, :password %>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="field is-grouped has-text-centered">
+                        <div class="control">
+                            <%= submit "Submit", class: "btn btn-primary" %>    
+                        </div>
+                    </div>
+                <% end %>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <br>
+      <a href="../">
+        <span>戻る</span>
+      </a>
+    </section>
+  </body>
+</html>
