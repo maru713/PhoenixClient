@@ -7,9 +7,12 @@ defmodule PhoenixclientWeb.LoginController do
 
   def index(conn, _params) do
   changeset = Accounts.change_user(%User{})
-    render(conn, "index.html",changeset: changeset)
+  |>IO.inspect(label: "DEBUGDESU")
+    json(conn, %{message: "Success!"})
   end
-  def login(conn, %{"user" => %{"email" => email, "password" => password}}) do
+  def login(conn) do
+    email = Map.get(conn.params, "email")
+    password = Map.get(conn.params,"password")
     Accounts.authenticate_user(email, password)
     |> login_reply(conn)
   end

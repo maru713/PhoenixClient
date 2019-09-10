@@ -6,7 +6,7 @@ defmodule PhoenixclientWeb.UserController do
 
   def index(conn, _params) do
     users = Accounts.list_users()
-    render(conn, "index.html", users: users)
+    render(conn, "index.json", users: users)
   end
 
   def new(conn, _params) do
