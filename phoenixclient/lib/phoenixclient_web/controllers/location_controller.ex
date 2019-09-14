@@ -11,7 +11,11 @@ defmodule PhoenixclientWeb.LocationController do
     render(conn, "index.json", locations: locations)
   end
 
-  def create(conn, %{"location" => location_params}) do
+  def create(conn, _params) do
+    IO.inspect(conn.params)
+    location_params =
+      %{"longitude" => conn.params["longitude"],"latitude" => conn.params["latitude"],"userid" => conn.params["userid"],"place" => conn.params["place"]}
+      |>IO.inspect
     with {:ok, %Location{} = location} <- Locations.create_location(location_params) do
       conn
       |> put_status(:created)

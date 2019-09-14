@@ -28,14 +28,15 @@ defmodule PhoenixclientWeb.Router do
     post "/login", LoginController, :login #loginのための情報送信  
     post "/add", RelationController, :add #フレンド申請
     delete "/logout", LoginController, :delete
-        get "/", PageController, :index
+    get "/", PageController, :index
+    
     get "/login", LoginController, :index   #login画面を表示
   end
   scope "/", PhoenixclientWeb do
     pipe_through [:api, :auth]
-
+    post "/search", SearchController, :search#検索
     resources "/users", UserController #usersパスへのすべてのリクエストを許可
-
+    resources "/locations", LocationController#位置登録
     post "/login", LoginController, :login #loginのための情報送信  
   end
   scope "/", PhoenixclientWeb do
