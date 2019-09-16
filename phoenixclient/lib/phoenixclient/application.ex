@@ -4,6 +4,7 @@ defmodule Phoenixclient.Application do
   @moduledoc false
 
   use Application
+  import Supervisor.Spec
 
   def start(_type, _args) do
     # List all child processes to be supervised
@@ -11,9 +12,10 @@ defmodule Phoenixclient.Application do
       # Start the Ecto repository
       Phoenixclient.Repo,
       # Start the endpoint when the application starts
-      PhoenixclientWeb.Endpoint
+      PhoenixclientWeb.Endpoint,
       # Starts a worker by calling: Phoenixclient.Worker.start_link(arg)
       # {Phoenixclient.Worker, arg},
+      Guardian.DB.Token.SweeperServer,
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
