@@ -1,7 +1,5 @@
 defmodule PhoenixclientWeb.LoginView do
   use PhoenixclientWeb, :view
-<<<<<<< Updated upstream
-=======
   alias PhoenixclientWeb.LoginView
   def render("index.json", %{changesets: changesets}) do
     %{data: render_many(changesets, LoginView, "login.json")}
@@ -14,5 +12,4 @@ defmodule PhoenixclientWeb.LoginView do
   def render("login.json", %{response: response}) do
     %{data: response}
   end
->>>>>>> Stashed changes
 end
