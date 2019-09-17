@@ -23,17 +23,21 @@ defmodule PhoenixclientWeb.Router do
   end
 
   scope "/", PhoenixclientWeb do
-    pipe_through [:browser, :auth]
-
-    resources "/users", UserController #usersパスへのすべてのリクエストを許可
-    post "/users", UserController, :sendreq
-    get "/", PageController, :index
-    get "/login", LoginController, :index   #login画面を表示
-    post "/login", LoginController, :login #loginのための情報送信  
-    post "/add", RelationController, :add #フレンド申請
+    pipe_through [:browser, :api, :auth]
+    
     delete "/logout", LoginController, :delete
+    get "/", PageController, :index
+    
+    get "/login", LoginController, :index   #login画面を表示
   end
-
+  scope "/", PhoenixclientWeb do
+    pipe_through [:api, :auth]
+    post "/add", RelationController, :add #フレンド申請
+    post "/search", SearchController, :search#検索
+    resources "/users", UserController #usersパスへのすべてのリクエストを許可
+    resources "/locations", LocationController#位置登録
+    post "/login", LoginController, :login #loginのための情報送信
+  end
   scope "/", PhoenixclientWeb do
   pipe_through [:browser, :auth, :ensure_auth]
 

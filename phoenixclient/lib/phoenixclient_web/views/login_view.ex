@@ -12,4 +12,5 @@ defmodule PhoenixclientWeb.LoginView do
   def render("login.json", %{response: response}) do
     %{data: response}
   end
+
 end

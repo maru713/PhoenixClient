@@ -21,12 +21,14 @@
         <span><%= link "Show", to: Routes.user_path(@conn, :show, user) %></span>
         <span><%= link "Edit", to: Routes.user_path(@conn, :edit, user) %></span>
         <span><%= link "Delete", to: Routes.user_path(@conn, :delete, user), method: :delete, data: [confirm: "Are you sure?"] %></span>
-        <%= if Accounts.current_user(@conn).email != user.email do %>
-          <%= form_for @conn, Routes.relation_path(@conn, :add), fn f -> %>
+        <%= if Accounts.current_user(@conn) do %>
+          <%= if Accounts.current_user(@conn).email != user.email do %>
+            <%= form_for @conn, Routes.relation_path(@conn, :add), fn f -> %>
 
-            <%= hidden_input f, :destinationID, value: user.id %>
-            <%= submit "Add" %>
+              <%= hidden_input f, :destinationID, value: user.id %>
+              <%= submit "Add" %>
 
+            <% end %>
           <% end %>
         <% end %>
       </td>

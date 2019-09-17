@@ -7,7 +7,7 @@ defmodule PhoenixclientWeb.RelationController do
 
   def index(conn, _params) do
     relation = Relations.list_relation()
-    render(conn, "index.html", relation: relation)
+    render(conn, "index.json", relation: relation)
   end
 
   def new(conn, _params) do

@@ -7,12 +7,10 @@ defmodule PhoenixclientWeb.LoginController do
     alias Phoenixclient.Auth.AuthTokens
 
   def index(conn, _params) do
-<<<<<<< Updated upstream
   changeset = Accounts.change_user(%User{})
-    render(conn, "index.html",changeset: changeset)
+  |>IO.inspect(label: "DEBUGDESU")
+    json(conn, %{message: "Success!"})
   end
-  def login(conn, %{"user" => %{"email" => email, "password" => password}}) do
-=======
     changeset = Accounts.change_user(%User{})
     |>IO.inspect(label: "DEBUGDESU")
     user =
@@ -25,7 +23,6 @@ defmodule PhoenixclientWeb.LoginController do
   def login(conn,_) do
     email = Map.get(conn.params, "email")
     password = Map.get(conn.params,"password")
->>>>>>> Stashed changes
     Accounts.authenticate_user(email, password)
     |> login_reply(conn)
   end

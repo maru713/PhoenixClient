@@ -118,4 +118,9 @@ defmodule Phoenixclient.Accounts do
   def current_user(conn) do
     Guardian.Plug.current_resource(conn)
   end
+
+  def searchName(word) do
+    query = from u in User, where: like(u.name, ^("%#{word}%"))
+    Repo.all(query)
+  end
 end
