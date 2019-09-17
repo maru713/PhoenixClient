@@ -132,4 +132,21 @@ defmodule Phoenixclient.Relations do
     Repo.one(query)
     |>is_nil   
   end
+
+  def searchfriend(id) do
+    sourceside =
+      Relation
+      |>where([u],u.sourceID == ^id)
+      |>where([u], u.status ==true)
+      |>Repo.all()
+      |>Enum.map(fn(x) -> x.destinationID end)
+
+    destinationside =
+      Relation
+      |>where([u],u.destinationID == ^id)
+      |>where([u], u.status == true)
+      |>Repo.all()
+      |>Enum.map(fn(x) -> x.sourceID end)
+    destinationside ++ sourceside
+  end
 end

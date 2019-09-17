@@ -1,8 +1,8 @@
 defmodule PhoenixclientWeb.RelationView do
   use PhoenixclientWeb, :view
   alias PhoenixclientWeb.RelationView
-  def render("index.json", %{users: users}) do
-    %{data: render_many(users, RelationView, "user.json")}
+  def render("index.json", %{relation: relation}) do
+    %{data: render_many(relation, RelationView, "relation.json")}
   end
 
   def render("show.json", %{relation: relation}) do

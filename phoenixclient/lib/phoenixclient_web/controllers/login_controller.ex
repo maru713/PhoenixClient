@@ -7,10 +7,6 @@ defmodule PhoenixclientWeb.LoginController do
     alias Phoenixclient.Auth.AuthTokens
 
   def index(conn, _params) do
-  changeset = Accounts.change_user(%User{})
-  |>IO.inspect(label: "DEBUGDESU")
-    json(conn, %{message: "Success!"})
-  end
     changeset = Accounts.change_user(%User{})
     |>IO.inspect(label: "DEBUGDESU")
     user =
