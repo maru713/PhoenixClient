@@ -124,4 +124,12 @@ defmodule Phoenixclient.Relations do
   def change_relation(%Relation{} = relation) do
     Relation.changeset(relation, %{})
   end
+
+  def check_rel(rel) do
+    query = 
+      from u in Relation,
+      where: u.sourceID == ^rel.sourceID and u.destinationID == ^rel.destinationID
+    Repo.one(query)
+    |>is_nil   
+  end
 end

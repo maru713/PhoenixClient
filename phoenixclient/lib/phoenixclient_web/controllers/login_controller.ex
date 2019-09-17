@@ -4,30 +4,60 @@ defmodule PhoenixclientWeb.LoginController do
     alias Phoenixclient.Accounts.User
     alias Phoenixclient.Accounts
     alias Phoenixclient.Accounts.Guardian
+    alias Phoenixclient.Auth.AuthTokens
 
   def index(conn, _params) do
+<<<<<<< Updated upstream
   changeset = Accounts.change_user(%User{})
     render(conn, "index.html",changeset: changeset)
   end
   def login(conn, %{"user" => %{"email" => email, "password" => password}}) do
+=======
+    changeset = Accounts.change_user(%User{})
+    |>IO.inspect(label: "DEBUGDESU")
+    user =
+      case Accounts.current_user(conn) do
+          true -> Accounts.current_user.name
+          nil -> "not logged in"
+      end
+    json(conn, %{message: user})
+  end
+  def login(conn,_) do
+    email = Map.get(conn.params, "email")
+    password = Map.get(conn.params,"password")
+>>>>>>> Stashed changes
     Accounts.authenticate_user(email, password)
     |> login_reply(conn)
   end
-   defp login_reply({:error, error}, conn) do
-    conn
-    |> put_flash(:error, error)
-    |> redirect(to: Routes.login_path(conn, :index))
+  defp login_reply({:error, error}, conn) do
+    json(conn, %{message: "login failed!"})
   end
   defp login_reply({:ok, user}, conn) do
+
+    {:ok, access_token, access_claims, refresh_token, _refresh_claims} = create_token(user)
+
     conn
-    |> put_flash(:info, "Welcome back!")
-    |> Guardian.Plug.sign_in(user)
-    |> redirect(to: "/")
+    |> Guardian.Plug.api_sign_in(user)
+    
+    response = %{
+      access_token: access_token,
+      refresh_token: refresh_token,
+      expires_in: access_claims["exp"]
+    }
+    render(conn, "login.json", response: response)
   end
-   def delete(conn, _) do
+
+  defp create_token(user) do
+    {:ok, access_token, access_claims} = Guardian.encode_and_sign(user, %{}, [token_type: "access", ttl: {1, :weeks}])
+    {:ok, refresh_token, refresh_claims} = Guardian.encode_and_sign(user, %{access_token: access_token}, [token_type: "refresh", ttl: {4, :weeks}])
+    {:ok, _a_token} = AuthTokens.after_encode_and_sign(user, access_claims, access_token)
+    {:ok, _r_token} = AuthTokens.after_encode_and_sign(user, refresh_claims, refresh_token)
+    {:ok, access_token, access_claims, refresh_token, refresh_claims}
+  end
+
+  def delete(conn, _) do
     conn
-    |> Guardian.Plug.sign_out()
-    |> put_flash(:info, "Logout successfully.")
+    |> Guardian.Plug.api_sign_out()
     |> redirect(to: Routes.page_path(conn, :index))
   end
 end

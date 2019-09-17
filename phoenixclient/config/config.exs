@@ -32,3 +32,8 @@ import_config "#{Mix.env()}.exs"
 config :phoenixclient, Phoenixclient.Accounts.Guardian,
   issuer: "phoenixclient",
   secret_key: "CnBC0RBD4tTCELsT8ET7qlK7ncI7NKXmAVcyd5F/asqEYo2QOmzgtrJZYgD6vgqX"
+
+config :guardian, Guardian.DB,
+  repo: Phoenixclient.Repo,
+  schema_name: "guardian_tokens",
+  sweep_interval: 60 # default: 60 minutes

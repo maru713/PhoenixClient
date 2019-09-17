@@ -19,7 +19,6 @@ defmodule PhoenixclientWeb.RelationController do
     case Relations.create_relation(relation_params) do
       {:ok, relation} ->
         conn
-        |> put_flash(:info, "Relation created successfully.")
         |> redirect(to: Routes.relation_path(conn, :show, relation))
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -63,8 +62,16 @@ defmodule PhoenixclientWeb.RelationController do
   def add(conn, %{"destinationID" => destinationID}) do
     current_user = Accounts.current_user(conn)
     relation = %{sourceID: current_user.id,destinationID: destinationID,status: false}
-    Relations.create_relation(relation)
+    case Relations.check_rel(relation) do
+      true -> rel_success(conn,relation)
+      false ->  json(conn, %{message: "Oops,something went wrong!"})
+    end
     redirect(conn, to: "/users")
+  end
+
+  def rel_success(conn,relation) do
+    Relations.create_relation(relation)
+    json(conn, %{message: "Success!"})
   end
 
   def incoming(conn, _) do
