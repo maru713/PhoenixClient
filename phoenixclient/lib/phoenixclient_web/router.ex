@@ -37,8 +37,8 @@ defmodule PhoenixclientWeb.Router do
     post "/refresh_token", LoginController, :refresh_token #アクセストークン再発行のルーティング
   end
 
-  scope "/", PhoenixclientWeb do
-  pipe_through [:browser, :auth, :ensure_auth]
+  # scope "/", PhoenixclientWeb do
+  # pipe_through [:browser, :auth, :ensure_auth]
 
 
   # Other scopes may use custom stacks.
