@@ -22,6 +22,7 @@ defmodule PhoenixclientWeb.Router do
     plug :accepts, ["json"]
   end
 
+'''
   scope "/", PhoenixclientWeb do
     pipe_through [:browser, :api, :auth]
 
@@ -32,13 +33,18 @@ defmodule PhoenixclientWeb.Router do
 
     get "/login", LoginController, :index   #login画面を表示
   end
+'''
+
   scope "/", PhoenixclientWeb do
-    pipe_through [:api, :auth]
+    pipe_through :api
     post "/search", SearchController, :search#検索
     resources "/users", UserController #usersパスへのすべてのリクエストを許可
     resources "/locations", LocationController#位置登録
     post "/login", LoginController, :login #loginのための情報送信
+    post "/logout", LoginController, :logout
+    post "/refresh_token", LoginController, :refresh_token #アクセストークン再発行のルーティング
   end
+
   scope "/", PhoenixclientWeb do
   pipe_through [:browser, :auth, :ensure_auth]
 
