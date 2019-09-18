@@ -1,17 +1,14 @@
 defmodule PhoenixclientWeb.LoginController do
     use PhoenixclientWeb, :controller
 
-    alias Phoenixclient.Accounts.User
     alias Phoenixclient.Accounts
     alias Phoenixclient.Accounts.Guardian
     alias Phoenixclient.Auth.AuthTokens
 
   def index(conn, _params) do
-    changeset = Accounts.change_user(%User{})
-    |>IO.inspect(label: "DEBUGDESU")
     user =
       case Accounts.current_user(conn) do
-          true -> Accounts.current_user.name
+          true -> Accounts.current_user(conn).name
           nil -> "not logged in"
       end
     json(conn, %{message: user})
@@ -22,7 +19,7 @@ defmodule PhoenixclientWeb.LoginController do
     Accounts.authenticate_user(email, password)
     |> login_reply(conn)
   end
-  defp login_reply({:error, error}, conn) do
+  defp login_reply({:error, _error}, conn) do
     json(conn, %{message: "login failed!"})
   end
   defp login_reply({:ok, user}, conn) do
@@ -30,7 +27,7 @@ defmodule PhoenixclientWeb.LoginController do
     {:ok, access_token, access_claims, refresh_token, _refresh_claims} = create_token(user)
 
     conn
-    |> Guardian.Plug.api_sign_in(user)
+    |> Guardian.Plug.sign_in(user)
     
     response = %{
       access_token: access_token,
@@ -50,7 +47,7 @@ defmodule PhoenixclientWeb.LoginController do
 
   def delete(conn, _) do
     conn
-    |> Guardian.Plug.api_sign_out()
+    |> Guardian.Plug.sign_out()
     |> redirect(to: Routes.page_path(conn, :index))
   end
 end

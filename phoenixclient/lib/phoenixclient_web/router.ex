@@ -19,6 +19,7 @@ defmodule PhoenixclientWeb.Router do
     get "/relation", RelationController, :index #フレンド申請
     post "/add", RelationController, :add #フレンド申請
     post "/search", SearchController, :search#検索
+    post "/accept", RelationController, :accept
     resources "/users", UserController #usersパスへのすべてのリクエストを許可
     resources "/locations", LocationController#位置登録
     post "/login", LoginController, :login #loginのための情報送信
