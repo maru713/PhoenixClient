@@ -30,7 +30,6 @@ defmodule PhoenixclientWeb.Router do
   scope "/", PhoenixclientWeb do
     pipe_through :api
     post "/search", SearchController, :search#検索
-    post "/accept", RelationController, :accept
     resources "/users", UserController #usersパスへのすべてのリクエストを許可
     resources "/locations", LocationController#位置登録
     post "/login", LoginController, :login #loginのための情報送信
