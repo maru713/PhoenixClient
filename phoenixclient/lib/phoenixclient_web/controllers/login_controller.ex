@@ -26,16 +26,23 @@ defmodule PhoenixclientWeb.LoginController do
     |> redirect(to: Routes.login_path(conn, :index))
   end
   defp login_reply({:ok, user}, conn) do
+
+    {:ok, access_token, access_claims, refresh_token, _refresh_claims} = create_token(user)
+
     conn
-    |> put_flash(:info, "Welcome back!")
     |> Guardian.Plug.sign_in(user)
-    |> redirect(to: "/")
+    
+    response = %{
+      access_token: access_token,
+      refresh_token: refresh_token,
+      expires_in: access_claims["exp"]
+    }
+    render(conn, "login.json", response: response)
   end
 
   def delete(conn, _) do
     conn
     |> Guardian.Plug.sign_out()
-    |> put_flash(:info, "Logout successfully.")
     |> redirect(to: Routes.page_path(conn, :index))
   end
 '''

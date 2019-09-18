@@ -46,7 +46,8 @@ defmodule Phoenixclient.MixProject do
       {:guardian, "~> 1.1"},
       {:guardian_db, "~> 2.0"},
       {:comeonin, "~> 4.1"},
-      {:bcrypt_elixir, "~> 1.1"}
+      {:bcrypt_elixir, "~> 1.1"},
+      {:guardian_db, "~> 2.0"}
     ]
   end
 

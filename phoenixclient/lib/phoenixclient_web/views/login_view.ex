@@ -9,6 +9,10 @@ defmodule PhoenixclientWeb.LoginView do
   def render("show.json", %{changeset: changeset}) do
     %{data: render_one(changeset, LoginView, "login.json")}
   end
+  
+  def render("login.json", %{response: response}) do
+    %{data: response}
+  end
 
   def render("login.json", %{response: response}) do
     %{data: response}
