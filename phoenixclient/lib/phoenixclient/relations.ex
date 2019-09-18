@@ -69,6 +69,7 @@ defmodule Phoenixclient.Relations do
     |> Relation.changeset(val)
     |> Repo.insert()
     |>IO.inspect
+    "Sent the friend request!"
   end
 
   @doc """
@@ -89,10 +90,10 @@ defmodule Phoenixclient.Relations do
     |> Repo.update()
   end
 
-  def accept_user(_conn, sourceUser, destinationUser) do
+  def accept_user(id, destinationUser) do
     from(p in Relation,
          where: p.sourceID == ^destinationUser
-         and    p.destinationID == ^sourceUser)
+         and    p.destinationID == ^id)
     |> Repo.update_all(set: [status: true])
   end
   @doc """
@@ -127,7 +128,8 @@ defmodule Phoenixclient.Relations do
   def check_rel(rel) do
     query = 
       from u in Relation,
-      where: u.sourceID == ^rel.sourceID and u.destinationID == ^rel.destinationID
+      where: (u.sourceID == ^rel.sourceID and u.destinationID == ^rel.destinationID)
+      or (u.sourceID == ^rel.destinationID and u.destinationID == ^rel.sourceID and u.status == true)
     Repo.one(query)
     |>is_nil   
   end
@@ -147,5 +149,24 @@ defmodule Phoenixclient.Relations do
       |>Repo.all()
       |>Enum.map(fn(x) -> x.sourceID end)
     destinationside ++ sourceside
+  end
+
+  def check_duplicate(relation) do
+    query = 
+      from u in Relation, 
+      where: 
+        ^relation.sourceID == u.destinationID 
+        and ^relation.destinationID  == u.sourceID
+      
+      rel = Repo.one(query)
+    case is_nil(rel) do
+      true -> create_relation(relation)
+      false -> adjust_duplicate(rel)
+    end
+  end
+
+  defp adjust_duplicate(relation) do
+    accept_user(relation.destinationID,relation.sourceID)
+    "Became friend!"
   end
 end

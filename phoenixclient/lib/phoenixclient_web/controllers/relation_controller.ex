@@ -59,31 +59,28 @@ defmodule PhoenixclientWeb.RelationController do
     |> put_flash(:info, "Relation deleted successfully.")
     |> redirect(to: Routes.relation_path(conn, :index))
   end
-  def add(conn, %{"destinationID" => destinationID}) do
-    current_user = Accounts.current_user(conn)
-    relation = %{sourceID: current_user.id,destinationID: destinationID,status: false}
+  def add(conn,_) do
+    relation = %{sourceID: conn.params["id"],destinationID: conn.params["destinationID"],status: false}
     case Relations.check_rel(relation) do
       true -> rel_success(conn,relation)
-      false ->  json(conn, %{message: "Oops,something went wrong!"})
+      false ->  json(conn, %{message: "Oops,your friend request have been already submited or accepted!"})
     end
-    redirect(conn, to: "/users")
   end
 
-  def rel_success(conn,relation) do
-    Relations.create_relation(relation)
-    json(conn, %{message: "Success!"})
+  defp rel_success(conn,relation) do
+    message =
+      Relations.check_duplicate(relation)
+    json(conn, %{message: message})
   end
 
   def incoming(conn, _) do
-    current_userID = Accounts.current_user(conn).id
-    
-    inc = Relations.get_incoming_users(current_userID)
-
-    render(conn, "incoming.html", users: inc)
+    inc = 
+      conn.params["id"]
+      |>Relations.get_incoming_users()
+    render(conn, "index.json", relation: inc)
   end
-  def accept(conn, %{"destinationID" => destinationID}) do
-    current_user = Accounts.current_user(conn)
-    Relations.accept_user(conn, current_user.id, destinationID)
-    redirect(conn, to: "/incoming")
+  def accept(conn,_) do
+    Relations.accept_user(conn.params["id"], conn.params["destinationID"])
+    json(conn, %{message: "Success!"})
   end
 end
