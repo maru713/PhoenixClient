@@ -27,8 +27,7 @@ defmodule Phoenixclient.Relations do
           |>where([u], u.destinationID == ^userid)
           |>where([u], not u.status)
           |>Repo.all
-               
-    
+
     Enum.map(inc, fn r ->
               User
               |> where([u], u.id == ^r.sourceID)

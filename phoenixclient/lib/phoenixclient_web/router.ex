@@ -14,18 +14,31 @@ defmodule PhoenixclientWeb.Router do
     plug :accepts, ["json"]
   end
 
+'''
   scope "/", PhoenixclientWeb do
-    pipe_through [:api, :auth]
-    get "/relation", RelationController, :index #フレンド申請
+    pipe_through [:browser, :api, :auth]
+
+    post "/login", LoginController, :login #loginのための情報送信
     post "/add", RelationController, :add #フレンド申請
+    delete "/logout", LoginController, :delete
+    get "/", PageController, :index
+
+    get "/login", LoginController, :index   #login画面を表示
+  end
+'''
+
+  scope "/", PhoenixclientWeb do
+    pipe_through :api
     post "/search", SearchController, :search#検索
     resources "/users", UserController #usersパスへのすべてのリクエストを許可
     resources "/locations", LocationController#位置登録
     post "/login", LoginController, :login #loginのための情報送信
-    delete "/logout", LoginController, :delete
-    get "/", PageController, :index
-    post "/locsearch", SearchController, :locsearch #location検索
+    post "/logout", LoginController, :logout
+    post "/refresh_token", LoginController, :refresh_token #アクセストークン再発行のルーティング
   end
+
+  scope "/", PhoenixclientWeb do
+  pipe_through [:browser, :auth, :ensure_auth]
 
 
   # Other scopes may use custom stacks.
