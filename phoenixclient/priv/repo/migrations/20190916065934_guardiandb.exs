@@ -3,12 +3,14 @@ defmodule Phoenixclient.Repo.Migrations.CreateGuardianDBTokensTable do
 
   def change do
     create table(:guardian_tokens, primary_key: false) do
+      # jtiはaccess_token
       add(:jti, :string, primary_key: true)
       add(:aud, :string, primary_key: true)
       add(:typ, :string)
       add(:iss, :string)
       add(:sub, :string)
       add(:exp, :bigint)
+      # jwtはrefresh_token
       add(:jwt, :text)
       add(:claims, :map)
       timestamps()
