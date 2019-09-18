@@ -36,4 +36,4 @@ config :phoenixclient, Phoenixclient.Accounts.Guardian,
 config :guardian, Guardian.DB,
   repo: Phoenixclient.Repo,
   schema_name: "guardian_tokens",
-  sweep_interval: 60 #default: 60 mins
+  sweep_interval: 60 # default: 60 minutes

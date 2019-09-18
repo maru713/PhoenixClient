@@ -4,7 +4,6 @@ defmodule Phoenixclient.Application do
   @moduledoc false
 
   use Application
-  import Supervisor.Spec
 
   def start(_type, _args) do
     import Supervisor.Spec
@@ -16,7 +15,7 @@ defmodule Phoenixclient.Application do
       PhoenixclientWeb.Endpoint,
       # Starts a worker by calling: Phoenixclient.Worker.start_link(arg)
       # {Phoenixclient.Worker, arg},
-      Guardian.DB.Token.SweeperServer,
+      worker(Guardian.DB.Token.SweeperServer, []), #ここだけ追加
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
