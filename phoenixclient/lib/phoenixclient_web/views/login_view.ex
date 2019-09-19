@@ -2,6 +2,7 @@ defmodule PhoenixclientWeb.LoginView do
   use PhoenixclientWeb, :view
   alias PhoenixclientWeb.LoginView
 
+'''
   def render("index.json", %{changesets: changesets}) do
     %{data: render_many(changesets, LoginView, "login.json")}
   end
@@ -9,9 +10,18 @@ defmodule PhoenixclientWeb.LoginView do
   def render("show.json", %{changeset: changeset}) do
     %{data: render_one(changeset, LoginView, "login.json")}
   end
-  
-  def render("login.json", %{response: response}) do
+'''
+
+  def render("auth.json", %{response: response}) do
     %{data: response}
+  end
+
+  def render("auth-error.json", %{response: response}) do
+    %{data: %{
+      error: "Invalid request",
+      error_description: "Authentication failed."
+      }
+    }
   end
 
   def render("login.json", %{response: response}) do
