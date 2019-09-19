@@ -66,7 +66,7 @@ defmodule PhoenixclientWeb.LoginController do
   defp auth_reply(conn, {:ok, claims}) do
     user = Accounts.get_user!(claims["sub"])
     response = %{
-      user: user
+      ok: "ok"
     }
     render(conn, "auth.json", response: response)
   end
