@@ -31,7 +31,7 @@ defmodule PhoenixclientWeb.LoginController do
 
     conn
     |> Guardian.Plug.sign_in(user)
-    
+
     response = %{
       access_token: access_token,
       refresh_token: refresh_token,
@@ -65,8 +65,11 @@ defmodule PhoenixclientWeb.LoginController do
 
   defp auth_reply(conn, {:ok, claims}) do
     user = Accounts.get_user!(claims["sub"])
+    IO.inspect(user.email)
     response = %{
-      ok: "ok"
+      id: user.id,
+      email: user.email,
+      name: user.name
     }
     render(conn, "auth.json", response: response)
   end
