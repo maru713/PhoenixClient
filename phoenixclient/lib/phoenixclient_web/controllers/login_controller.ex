@@ -30,7 +30,7 @@ defmodule PhoenixclientWeb.LoginController do
     {:ok, access_token, access_claims, refresh_token, _refresh_claims} = create_token(user)
 
     conn
-    |> Guardian.Plug.api_sign_in(user)
+    |> Guardian.Plug.sign_in(user)
 
     response = %{
       access_token: access_token,
@@ -46,7 +46,14 @@ defmodule PhoenixclientWeb.LoginController do
     |> redirect(to: Routes.page_path(conn, :index))
   end
 '''
-  def login(conn, %{"user"=>%{"email"=>email, "password"=>plain_text_password}}) do
+
+  # クライアントが最初に送信するトークンの認証
+  def auth(conn, %{"access_token"=>access_token}) do
+    conn
+    |> auth_reply(confirm_token(access_token))
+  end
+
+  def login(conn,%{"email"=>email, "password"=>plain_text_password}) do
     conn
     |> login_reply(Accounts.authenticate_user(email, plain_text_password))
   end
@@ -54,6 +61,23 @@ defmodule PhoenixclientWeb.LoginController do
   # リフレッシュトークンに基づいたアクセストークンを削除する
   def logout(conn, %{"refresh_token" => refresh_token}) do
     logout_reply(conn, confirm_token(refresh_token), refresh_token)
+  end
+
+  defp auth_reply(conn, {:ok, claims}) do
+    user = Accounts.get_user!(claims["sub"])
+    IO.inspect(user.email)
+    response = %{
+      id: user.id,
+      email: user.email,
+      name: user.name
+    }
+    render(conn, "auth.json", response: response)
+  end
+  defp auth_reply(conn, {:error, _}) do
+    response = %{}
+    conn
+    |> put_status(:bad_request)
+    |> render("auth-error.json", response: response)
   end
 
   defp login_reply(conn, {:ok, user}) do
@@ -68,7 +92,6 @@ defmodule PhoenixclientWeb.LoginController do
   defp login_reply(conn, {:error, _}) do
     response = %{}
     conn
-    |> put_status(:unauthorized)
     |> render("login-error.json", response: response)
   end
 
