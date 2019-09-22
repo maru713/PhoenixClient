@@ -53,7 +53,7 @@ defmodule PhoenixclientWeb.LoginController do
     |> auth_reply(confirm_token(access_token))
   end
 
-  def login(conn, %{"user"=>%{"email"=>email, "password"=>plain_text_password}}) do
+  def login(conn,%{"email"=>email, "password"=>plain_text_password}) do
     conn
     |> login_reply(Accounts.authenticate_user(email, plain_text_password))
   end
@@ -92,7 +92,6 @@ defmodule PhoenixclientWeb.LoginController do
   defp login_reply(conn, {:error, _}) do
     response = %{}
     conn
-    |> put_status(:unauthorized)
     |> render("login-error.json", response: response)
   end
 
