@@ -29,8 +29,9 @@ defmodule PhoenixclientWeb.Router do
 
   scope "/", PhoenixclientWeb do
     pipe_through :api
-
+    get "/", PageController, :index
     post "/search", SearchController, :search#検索
+    post "/locsearch", SearchController, :locsearch#検索
     post "/accept", RelationController, :accept
     resources "/users", UserController #usersパスへのすべてのリクエストを許可
     resources "/locations", LocationController#位置登録
@@ -38,6 +39,8 @@ defmodule PhoenixclientWeb.Router do
     post "/login", LoginController, :login #loginのための情報送信
     post "/logout", LoginController, :logout
     post "/refresh_token", LoginController, :refresh_token #アクセストークン再発行のルーティング
+    post "/relations", RelationController, :add #フレンド追加
+    get "/relations", RelationController, :index
   end
 
   # scope "/", PhoenixclientWeb do

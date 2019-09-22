@@ -105,24 +105,11 @@ defmodule Phoenixclient.Locations do
   def search(word,id) do
     friendid = Relations.searchfriend(id)
     |>IO.inspect(label: "FRIENDID")
-    Location
-    |>where([u],u.userid in ^friendid or u.userid == ^id)
-    |>Repo.all()
-    |>IO.inspect(label: "DEBUG")
-    IO.inspect(word,label: "DEBUG")
+
     Location
     |>where([u],u.userid in ^friendid or u.userid == ^id)
     |>where([u],like(u.place , ^("%#{word}%")))
     |>Repo.all()
   end
 
-  defp loop(u,0,list) do
-    x = Enum.at(list,0)
-    u.userid == x
-  end
-
-  defp loop(u,times,list) do
-    x = Enum.at(list,times)
-    u.userid == x or loop(times - 1,u,list)
-  end
 end

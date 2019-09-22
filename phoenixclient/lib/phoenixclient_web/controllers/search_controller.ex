@@ -24,6 +24,6 @@ defmodule PhoenixclientWeb.SearchController do
         json(conn,formatloc(result))
     end
     defp formatloc(result) do
-        Enum.map(result,fn(x) -> %{"place" => x.place,"latitude" => x.latitude,"logitude" => x.longitude} end)
+        Enum.map(result,fn(x) -> %{"place" => x.place,"latitude" => x.latitude,"longitude" => x.longitude} end)
     end
 end

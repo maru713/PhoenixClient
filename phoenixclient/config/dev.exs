@@ -3,8 +3,8 @@ use Mix.Config
 # Configure your database
 config :phoenixclient, Phoenixclient.Repo,
   username: "postgres",
-  password: "0562",
-  database: "postgresql-tapered-80801",
+  password: "postgres",
+  database: "phoenixclient_dev",
   hostname: "localhost",
   #hostname: "https://thawing-earth-80470.herokuapp.com/",
   show_sensitive_data_on_connection_error: true,
