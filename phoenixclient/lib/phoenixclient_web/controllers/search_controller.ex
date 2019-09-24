@@ -8,7 +8,7 @@ defmodule PhoenixclientWeb.SearchController do
 
     def search(conn,_) do
         result = 
-            conn.params["searchtmp"]
+            conn.params["word"]
             |>Accounts.searchName()
         json(conn,formatuser(result))
     end
