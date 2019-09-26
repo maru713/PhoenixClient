@@ -4,9 +4,8 @@ use Mix.Config
 config :phoenixclient, Phoenixclient.Repo,
   username: "postgres",
   password: "postgres",
-  database: "phoenixclient_dev",
-  hostname: "localhost",
-  #hostname: "https://thawing-earth-80470.herokuapp.com/",
+  database: "postgresql-tapered-80801",
+  hostname: "https://thawing-earth-80470.herokuapp.com/",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 

@@ -42,7 +42,7 @@ defmodule PhoenixclientWeb.LoginController do
 
   def delete(conn, _) do
     conn
-    |> Guardian.Plug.sign_out()
+    |> Guardian.Plug.api_sign_out()
     |> redirect(to: Routes.page_path(conn, :index))
   end
 '''
