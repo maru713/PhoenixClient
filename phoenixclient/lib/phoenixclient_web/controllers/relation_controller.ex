@@ -59,6 +59,7 @@ defmodule PhoenixclientWeb.RelationController do
     |> put_flash(:info, "Relation deleted successfully.")
     |> redirect(to: Routes.relation_path(conn, :index))
   end
+
   def add(conn,_) do
     relation = %{sourceID: conn.params["id"],destinationID: conn.params["destinationID"],status: false}
     case Relations.check_rel(relation) do
@@ -79,6 +80,7 @@ defmodule PhoenixclientWeb.RelationController do
       |>Relations.get_incoming_users()
     render(conn, "index.json", relation: inc)
   end
+
   def accept(conn, _) do
     Relations.accept_user(conn.params["id"], conn.params["destinationID"])
     json(conn, %{message: "Success!"})

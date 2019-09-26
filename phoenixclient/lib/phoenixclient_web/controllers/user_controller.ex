@@ -25,7 +25,7 @@ defmodule PhoenixclientWeb.UserController do
         redirect(conn,to: Routes.user_path(conn, :index))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        send_resp(conn,502,"Oops, something went wrong!")
+        send_resp(conn, 502, "Oops, something went wrong!")
     end
   end
 
