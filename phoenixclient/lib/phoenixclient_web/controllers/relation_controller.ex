@@ -74,12 +74,12 @@ defmodule PhoenixclientWeb.RelationController do
   end
 
   def incoming(conn, _) do
-    inc = 
+    inc =
       conn.params["id"]
       |>Relations.get_incoming_users()
     render(conn, "index.json", relation: inc)
   end
-  def accept(conn,_) do
+  def accept(conn, _) do
     Relations.accept_user(conn.params["id"], conn.params["destinationID"])
     json(conn, %{message: "Success!"})
   end

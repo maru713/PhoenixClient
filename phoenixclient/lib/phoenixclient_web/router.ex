@@ -35,7 +35,8 @@ defmodule PhoenixclientWeb.Router do
     get "/locsearch", SearchController, :locsearch#検索
     
     resources "/users", UserController #usersパスへのすべてのリクエストを許可
-    
+    get "/userdata", UserController, :get_user # ユーザーのデータ取得
+
     resources "/locations", LocationController#位置登録
     
     post "/auth", LoginController, :auth # トークン認証のためのリクエスト
@@ -45,6 +46,7 @@ defmodule PhoenixclientWeb.Router do
     
     post "/relations", RelationController, :add #フレンド追加
     get "/relations", RelationController, :index
+    get "/relations/name", UserController, :show
     post "/accept", RelationController, :accept
   end
 

@@ -124,4 +124,10 @@ defmodule Phoenixclient.Accounts do
     query = from u in User, where: like(u.name, ^("%#{word}%"))
     Repo.all(query)
   end
+
+  def get_user_from_id(id) do
+    User
+    |> where([u], u.id == ^id)
+    |> Repo.all
+  end
 end

@@ -29,9 +29,9 @@ defmodule PhoenixclientWeb.UserController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    user = Accounts.get_user!(id)
-    render(conn, "show.html", user: user)
+  def show(conn, _) do
+    user = Accounts.get_user!(conn.params["id"])
+    render(conn, "show.json", user: user)
   end
 
   def edit(conn, %{"id" => id}) do
@@ -61,5 +61,10 @@ defmodule PhoenixclientWeb.UserController do
     conn
     |> put_flash(:info, "User deleted successfully.")
     |> redirect(to: Routes.user_path(conn, :index))
+  end
+
+  def get_user(conn, _) do
+    user = Accounts.get_user_from_id(conn.params["id"])
+    render(conn, "user.json", user: user)
   end
 end

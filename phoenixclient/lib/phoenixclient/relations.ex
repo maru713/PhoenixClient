@@ -92,8 +92,8 @@ defmodule Phoenixclient.Relations do
 
   def accept_user(id, destinationUser) do
     from(p in Relation,
-         where: p.sourceID == ^destinationUser
-         and    p.destinationID == ^id)
+        where: p.sourceID == ^destinationUser
+        and    p.destinationID == ^id)
     |> Repo.update_all(set: [status: true])
   end
   @doc """
@@ -152,12 +152,12 @@ defmodule Phoenixclient.Relations do
   end
 
   def check_duplicate(relation) do
-    query = 
-      from u in Relation, 
-      where: 
-        ^relation.sourceID == u.destinationID 
+    query =
+      from u in Relation,
+      where:
+        ^relation.sourceID == u.destinationID
         and ^relation.destinationID  == u.sourceID
-      
+
       rel = Repo.one(query)
     case is_nil(rel) do
       true -> create_relation(relation)
