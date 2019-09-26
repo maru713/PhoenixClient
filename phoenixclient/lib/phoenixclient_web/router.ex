@@ -47,6 +47,7 @@ defmodule PhoenixclientWeb.Router do
     post "/relations", RelationController, :add #フレンド追加
     get "/relations", RelationController, :index
     post "/accept", RelationController, :accept
+    get "/incoming", RelationController, :incoming
   end
 
   # scope "/", PhoenixclientWeb do
