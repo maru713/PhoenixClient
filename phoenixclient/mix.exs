@@ -20,7 +20,7 @@ defmodule Phoenixclient.MixProject do
   def application do
     [
       mod: {Phoenixclient.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools,]
     ]
   end
 
@@ -47,6 +47,7 @@ defmodule Phoenixclient.MixProject do
       {:guardian_db, "~> 2.0"},
       {:comeonin, "~> 4.1"},
       {:bcrypt_elixir, "~> 1.1"},
+      {:cloudex, "~> 1.3.0"},
     ]
   end
 

@@ -11,7 +11,7 @@ defmodule PhoenixclientWeb.Router do
   end
 
   pipeline :api do
-    plug :accepts, ["json"]
+    plug :accepts, ["json","multipart"]
   end
 
 '''
@@ -40,7 +40,7 @@ defmodule PhoenixclientWeb.Router do
     resources "/locations", LocationController#位置登録
 
     post "/auth", LoginController, :auth # トークン認証のためのリクエスト
-    post "/login", LoginController, :login #loginのための情報送信
+    post "/login", LoginController, :login # loginのための情報送信
     post "/logout", LoginController, :logout
     post "/refresh_token", LoginController, :refresh_token #アクセストークン再発行のルーティング
 
@@ -48,6 +48,7 @@ defmodule PhoenixclientWeb.Router do
     get "/relations", RelationController, :index
     post "/accept", RelationController, :accept
     get "/incoming", RelationController, :incoming
+    post "/image", ImageController, :upload# 画像アップロード
   end
 
   # scope "/", PhoenixclientWeb do

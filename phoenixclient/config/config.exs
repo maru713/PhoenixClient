@@ -37,3 +37,10 @@ config :guardian, Guardian.DB,
   repo: Phoenixclient.Repo,
   schema_name: "guardian_tokens",
   sweep_interval: 60 #default: 60 mins
+
+config :cloudex,
+  api_key: "977554816118577",
+  secret: "EM4GAp_haNVB93L7lx-ciJ2c5pc",
+  cloud_name: "dgcp5e4pe"
+
+

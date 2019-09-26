@@ -126,12 +126,12 @@ defmodule Phoenixclient.Relations do
   end
 
   def check_rel(rel) do
-    query = 
+    query =
       from u in Relation,
       where: (u.sourceID == ^rel.sourceID and u.destinationID == ^rel.destinationID)
       or (u.sourceID == ^rel.destinationID and u.destinationID == ^rel.sourceID and u.status == true)
     Repo.one(query)
-    |>is_nil   
+    |>is_nil
   end
 
   def searchfriend(id) do
