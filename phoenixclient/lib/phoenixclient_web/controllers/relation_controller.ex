@@ -78,7 +78,7 @@ defmodule PhoenixclientWeb.RelationController do
     inc =
       conn.params["id"]
       |>Relations.get_incoming_users()
-    render(conn, "index.json", relation: inc)
+    render(conn, "incoming.json", relation: inc)
   end
 
   def accept(conn, _) do
