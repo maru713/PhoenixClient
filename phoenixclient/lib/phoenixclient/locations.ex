@@ -104,7 +104,6 @@ defmodule Phoenixclient.Locations do
 
   def search(word,id) do
     friendid = Relations.searchfriend(id)
-    |>IO.inspect(label: "FRIENDID")
 
     Location
     |>where([u],u.userid in ^friendid or u.userid == ^id)

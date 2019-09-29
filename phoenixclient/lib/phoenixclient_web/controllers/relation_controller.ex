@@ -62,7 +62,7 @@ defmodule PhoenixclientWeb.RelationController do
 
   def add(conn,_) do
     relation = %{sourceID: conn.params["id"],destinationID: conn.params["destinationID"],status: false}
-    case Relations.check_rel(relation) do
+    case Relations.check_rel(relation) and relation.sourceID != relation.destinationID do
       true -> rel_success(conn,relation)
       false ->  json(conn, %{message: "Oops,your friend request have been already submited or accepted!"})
     end

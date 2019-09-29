@@ -135,20 +135,23 @@ defmodule Phoenixclient.Relations do
   end
 
   def searchfriend(id) do
-    sourceside =
+    source_side =
+      Task.async(fn ->
       Relation
       |>where([u],u.sourceID == ^id)
       |>where([u], u.status ==true)
       |>Repo.all()
       |>Enum.map(fn(x) -> x.destinationID end)
+      end)
 
-    destinationside =
+    destination_side =
       Relation
       |>where([u],u.destinationID == ^id)
       |>where([u], u.status == true)
       |>Repo.all()
       |>Enum.map(fn(x) -> x.sourceID end)
-    destinationside ++ sourceside
+
+    Task.await(source_side) ++ destination_side
   end
 
   def check_duplicate(relation) do
